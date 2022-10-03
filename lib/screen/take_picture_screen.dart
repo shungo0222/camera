@@ -1,6 +1,10 @@
-import 'package:camera/camera.dart';
+// Flutter imports:
 import 'package:flutter/material.dart';
 
+// Package imports:
+import 'package:camera/camera.dart';
+
+// Project imports:
 import 'album_screen.dart';
 import 'display_picture_screen.dart';
 
