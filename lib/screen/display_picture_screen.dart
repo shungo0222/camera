@@ -4,6 +4,12 @@ import 'dart:io';
 // Flutter imports:
 import 'package:flutter/material.dart';
 
+// Package imports:
+import 'package:provider/provider.dart';
+
+// Project imports:
+import '../provider/photo.dart';
+
 class DisplayPictureScreen extends StatelessWidget {
   const DisplayPictureScreen({
     Key? key,
@@ -14,7 +20,10 @@ class DisplayPictureScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Future<void> _saveMessage() async {
+    final photoProvider = Provider.of<Photo>(context);
+
+    Future<void> _save() async {
+      photoProvider.save(imagePath);
       ScaffoldMessenger.of(context).hideCurrentSnackBar();
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -47,7 +56,7 @@ class DisplayPictureScreen extends StatelessWidget {
           const SizedBox(width: 50),
           FloatingActionButton(
             onPressed: () async {
-              await _saveMessage();
+              await _save();
               Navigator.of(context).pop();
             },
             backgroundColor: Colors.deepPurpleAccent,
