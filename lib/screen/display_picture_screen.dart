@@ -5,25 +5,32 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 
 // Package imports:
-import 'package:provider/provider.dart';
+import 'package:camera/camera.dart';
 
 // Project imports:
-import '../provider/photo.dart';
+import '../db/photo_database.dart';
+import '../model/photo.dart';
 
 class DisplayPictureScreen extends StatelessWidget {
   const DisplayPictureScreen({
     Key? key,
-    required this.imagePath,
+    required this.image,
   }) : super(key: key);
 
-  final String imagePath;
+  final XFile image;
 
   @override
   Widget build(BuildContext context) {
-    final photoProvider = Provider.of<Photo>(context);
-
     Future<void> _save() async {
-      photoProvider.save(imagePath);
+      final photoBytes = await image.readAsBytes();
+      final Photo photo = Photo(
+        data: photoBytes,
+        time: DateTime.now(),
+        latitude: 100,
+        longitude: 100,
+      );
+      await PhotoDatabase.instance.create(photo);
+
       ScaffoldMessenger.of(context).hideCurrentSnackBar();
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -41,7 +48,7 @@ class DisplayPictureScreen extends StatelessWidget {
         height: double.infinity,
         width: double.infinity,
         child: Image.file(
-          File(imagePath),
+          File(image.path),
           fit: BoxFit.cover,
         ),
       ),

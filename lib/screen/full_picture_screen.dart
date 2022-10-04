@@ -1,5 +1,5 @@
 // Dart imports:
-import 'dart:io';
+import 'dart:typed_data';
 
 // Flutter imports:
 import 'package:flutter/material.dart';
@@ -10,10 +10,10 @@ import '../widget/photo_info_panel.dart';
 class FullPictureScreen extends StatelessWidget {
   const FullPictureScreen({
     Key? key,
-    required this.imagePath,
+    required this.photoBytes,
   }) : super(key: key);
 
-  final String imagePath;
+  final Uint8List photoBytes;
 
   @override
   Widget build(BuildContext context) {
@@ -21,8 +21,8 @@ class FullPictureScreen extends StatelessWidget {
       body: SizedBox(
         height: double.infinity,
         width: double.infinity,
-        child: Image.file(
-          File(imagePath),
+        child: Image.memory(
+          photoBytes,
           fit: BoxFit.cover,
         ),
       ),
@@ -44,9 +44,7 @@ class FullPictureScreen extends StatelessWidget {
                   top: Radius.circular(20),
                 ),
               ),
-              builder: (BuildContext context) => PhotoInfoPanel(
-                path: imagePath,
-              ),
+              builder: (BuildContext context) => const PhotoInfoPanel(),
             ),
             backgroundColor: Colors.blueGrey,
             child: const Icon(Icons.info_outline),

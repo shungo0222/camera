@@ -2,12 +2,7 @@
 import 'package:flutter/material.dart';
 
 class PhotoInfoPanel extends StatelessWidget {
-  const PhotoInfoPanel({
-    Key? key,
-    required this.path,
-  }) : super(key: key);
-
-  final String path;
+  const PhotoInfoPanel({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,46 +13,36 @@ class PhotoInfoPanel extends StatelessWidget {
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
+        children: const [
+          Text(
             'Infomation',
             style: TextStyle(
               fontSize: 30,
               fontWeight: FontWeight.bold,
             ),
           ),
-          const SizedBox(height: 40),
-          const Text(
-            'Path',
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.w400,
-            ),
-          ),
-          const Divider(),
-          Text(path),
-          const Spacer(),
-          const Text(
+          SizedBox(height: 40),
+          Text(
             'Date',
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.w400,
             ),
           ),
-          const Divider(),
-          const Text('Coming soon...'),
-          const Spacer(),
-          const Text(
+          Divider(),
+          Text('Coming soon...'),
+          Spacer(),
+          Text(
             'Location',
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.w400,
             ),
           ),
-          const Divider(),
-          const Text('Latitude: Coming soon...'),
-          const Text('Longitude: Coming soon...'),
-          const Spacer(),
+          Divider(),
+          Text('Latitude: Coming soon...'),
+          Text('Longitude: Coming soon...'),
+          Spacer(),
         ],
       ),
     );
