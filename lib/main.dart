@@ -3,10 +3,8 @@ import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:camera/camera.dart';
-import 'package:provider/provider.dart';
 
 // Project imports:
-import 'provider/photo.dart';
 import 'screen/take_picture_screen.dart';
 
 Future<void> main() async {
@@ -26,15 +24,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider.value(value: Photo()),
-      ],
-      child: MaterialApp(
-        title: 'Camera',
-        debugShowCheckedModeBanner: false,
-        home: TakePictureScreen(camera: camera),
-      ),
+    return MaterialApp(
+      title: 'Camera',
+      debugShowCheckedModeBanner: false,
+      home: TakePictureScreen(camera: camera),
     );
   }
 }
