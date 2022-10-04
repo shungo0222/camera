@@ -5,15 +5,20 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 
 // Project imports:
+import '../db/photo_database.dart';
 import '../widget/photo_info_panel.dart';
 
 class FullPictureScreen extends StatelessWidget {
   const FullPictureScreen({
     Key? key,
+    required this.photoId,
     required this.photoBytes,
+    required this.refreshFunc,
   }) : super(key: key);
 
+  final int photoId;
   final Uint8List photoBytes;
+  final Function refreshFunc;
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +56,42 @@ class FullPictureScreen extends StatelessWidget {
           ),
           const SizedBox(width: 50),
           FloatingActionButton(
-            onPressed: () {},
+            onPressed: () {
+              showDialog<dynamic>(
+                context: context,
+                builder: (BuildContext context) => AlertDialog(
+                  title: const Text(
+                    'DELETE THIS PHOTO',
+                    style: TextStyle(
+                      color: Colors.red,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  content:
+                      const Text('Are you sure you want to delete this photo?'),
+                  actions: [
+                    TextButton(
+                      child: const Text('Cancel'),
+                      onPressed: () => Navigator.of(context).pop(),
+                    ),
+                    TextButton(
+                      child: const Text(
+                        'DELETE',
+                        style: TextStyle(
+                          color: Colors.red,
+                        ),
+                      ),
+                      onPressed: () async {
+                        await PhotoDatabase.instance.delete(photoId);
+                        Navigator.of(context).pop();
+                        Navigator.of(context).pop();
+                        await refreshFunc();
+                      },
+                    ),
+                  ],
+                ),
+              );
+            },
             backgroundColor: Colors.red,
             child: const Icon(Icons.delete_outline),
           ),

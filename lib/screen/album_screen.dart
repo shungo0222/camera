@@ -77,7 +77,9 @@ class _AlbumScreenState extends State<AlbumScreen> {
                     onTap: () => Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (BuildContext context) => FullPictureScreen(
+                          photoId: photos[index].id!,
                           photoBytes: photos[index].data,
+                          refreshFunc: refreshPhotos,
                         ),
                       ),
                     ),
