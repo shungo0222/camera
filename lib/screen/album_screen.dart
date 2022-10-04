@@ -23,10 +23,10 @@ class _AlbumScreenState extends State<AlbumScreen> {
     super.initState();
   }
 
-  Future refreshPhotos() async {
-    setState(() => isLoading = true);
+  Future<void> refreshPhotos({bool flag = true}) async {
+    if (flag) setState(() => isLoading = true);
     photos = await PhotoDatabase.instance.readAllPhotos();
-    setState(() => isLoading = false);
+    if (flag) setState(() => isLoading = false);
   }
 
   @override
@@ -39,57 +39,62 @@ class _AlbumScreenState extends State<AlbumScreen> {
           ? const Center(
               child: CircularProgressIndicator(),
             )
-          : photos.isEmpty
-              ? Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text(
-                        'No Photos Yet',
-                        style: TextStyle(
-                          fontSize: 15,
-                          color: Colors.grey,
-                          fontWeight: FontWeight.bold,
-                        ),
+          : RefreshIndicator(
+              onRefresh: () => refreshPhotos(flag: false),
+              child: photos.isEmpty
+                  ? Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text(
+                            'No Photos Yet',
+                            style: TextStyle(
+                              fontSize: 15,
+                              color: Colors.grey,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          TextButton(
+                            onPressed: () => Navigator.of(context).pop(),
+                            child: const Text(
+                              'Go back to the camera',
+                              style: TextStyle(
+                                fontSize: 15,
+                                color: Colors.amber,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                      TextButton(
-                        onPressed: () => Navigator.of(context).pop(),
-                        child: const Text(
-                          'Go back to the camera',
-                          style: TextStyle(
-                            fontSize: 15,
-                            color: Colors.amber,
-                            fontWeight: FontWeight.bold,
+                    )
+                  : GridView.builder(
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 3,
+                        mainAxisSpacing: 2,
+                        crossAxisSpacing: 2,
+                      ),
+                      itemBuilder: (BuildContext context, int index) =>
+                          GestureDetector(
+                        onTap: () => Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                FullPictureScreen(
+                              photoId: photos[index].id!,
+                              photoBytes: photos[index].data,
+                              refreshFunc: refreshPhotos,
+                            ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                )
-              : GridView.builder(
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3,
-                    mainAxisSpacing: 2,
-                    crossAxisSpacing: 2,
-                  ),
-                  itemBuilder: (BuildContext context, int index) =>
-                      GestureDetector(
-                    onTap: () => Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (BuildContext context) => FullPictureScreen(
-                          photoId: photos[index].id!,
-                          photoBytes: photos[index].data,
-                          refreshFunc: refreshPhotos,
+                        child: Image.memory(
+                          photos[index].data,
+                          fit: BoxFit.cover,
                         ),
                       ),
+                      itemCount: photos.length,
                     ),
-                    child: Image.memory(
-                      photos[index].data,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  itemCount: photos.length,
-                ),
+            ),
     );
   }
 }
