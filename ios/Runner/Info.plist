@@ -49,5 +49,7 @@
 	<string>Use the camera to take some pictures</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Use the camera to take some pictures</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Required to get location information when taking some photos</string>
 </dict>
 </plist>

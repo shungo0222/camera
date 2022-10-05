@@ -84,6 +84,8 @@ class _AlbumScreenState extends State<AlbumScreen> {
                               photoId: photos[index].id!,
                               photoBytes: photos[index].data,
                               time: photos[index].time,
+                              latitude: photos[index].latitude,
+                              longitude: photos[index].longitude,
                               refreshFunc: refreshPhotos,
                             ),
                           ),
