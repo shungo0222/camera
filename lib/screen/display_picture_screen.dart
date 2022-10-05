@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:camera/camera.dart';
+import 'package:location/location.dart';
 
 // Project imports:
 import '../db/photo_database.dart';
@@ -21,13 +22,50 @@ class DisplayPictureScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Future<Map<String, double>> getCurrentLocation() async {
+      Location location = Location();
+
+      bool serviceEnabled;
+      PermissionStatus permissionGranted;
+      LocationData locationData;
+
+      serviceEnabled = await location.serviceEnabled();
+      if (!serviceEnabled) {
+        serviceEnabled = await location.requestService();
+        if (!serviceEnabled) {
+          return {
+            'latitude': 0,
+            'longitude': 0,
+          };
+        }
+      }
+
+      permissionGranted = await location.hasPermission();
+      if (permissionGranted == PermissionStatus.denied) {
+        permissionGranted = await location.requestPermission();
+        if (permissionGranted != PermissionStatus.granted) {
+          return {
+            'latitude': 0,
+            'longitude': 0,
+          };
+        }
+      }
+
+      locationData = await location.getLocation();
+      return {
+        'latitude': locationData.latitude!,
+        'longitude': locationData.longitude!,
+      };
+    }
+
     Future<void> _save() async {
+      final currentLocation = await getCurrentLocation();
       final photoBytes = await image.readAsBytes();
       final Photo photo = Photo(
         data: photoBytes,
         time: DateTime.now(),
-        latitude: 100,
-        longitude: 100,
+        latitude: currentLocation['latitude']!,
+        longitude: currentLocation['longitude']!,
       );
       await PhotoDatabase.instance.create(photo);
 

@@ -14,12 +14,16 @@ class FullPictureScreen extends StatelessWidget {
     required this.photoId,
     required this.photoBytes,
     required this.time,
+    required this.latitude,
+    required this.longitude,
     required this.refreshFunc,
   }) : super(key: key);
 
   final int photoId;
   final Uint8List photoBytes;
   final DateTime time;
+  final double latitude;
+  final double longitude;
   final Function refreshFunc;
 
   @override
@@ -53,6 +57,8 @@ class FullPictureScreen extends StatelessWidget {
               ),
               builder: (BuildContext context) => PhotoInfoPanel(
                 time: time,
+                latitude: latitude,
+                longitude: longitude,
               ),
             ),
             backgroundColor: Colors.blueGrey,

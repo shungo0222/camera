@@ -8,9 +8,13 @@ class PhotoInfoPanel extends StatelessWidget {
   const PhotoInfoPanel({
     Key? key,
     required this.time,
+    required this.latitude,
+    required this.longitude,
   }) : super(key: key);
 
   final DateTime time;
+  final double latitude;
+  final double longitude;
 
   @override
   Widget build(BuildContext context) {
@@ -48,8 +52,8 @@ class PhotoInfoPanel extends StatelessWidget {
             ),
           ),
           const Divider(),
-          const Text('Latitude: Coming soon...'),
-          const Text('Longitude: Coming soon...'),
+          Text('Latitude: $latitude'),
+          Text('Longitude: $longitude'),
           const Spacer(),
         ],
       ),
