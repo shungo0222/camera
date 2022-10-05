@@ -83,6 +83,7 @@ class _AlbumScreenState extends State<AlbumScreen> {
                                 FullPictureScreen(
                               photoId: photos[index].id!,
                               photoBytes: photos[index].data,
+                              time: photos[index].time,
                               refreshFunc: refreshPhotos,
                             ),
                           ),

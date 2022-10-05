@@ -13,11 +13,13 @@ class FullPictureScreen extends StatelessWidget {
     Key? key,
     required this.photoId,
     required this.photoBytes,
+    required this.time,
     required this.refreshFunc,
   }) : super(key: key);
 
   final int photoId;
   final Uint8List photoBytes;
+  final DateTime time;
   final Function refreshFunc;
 
   @override
@@ -49,7 +51,9 @@ class FullPictureScreen extends StatelessWidget {
                   top: Radius.circular(20),
                 ),
               ),
-              builder: (BuildContext context) => const PhotoInfoPanel(),
+              builder: (BuildContext context) => PhotoInfoPanel(
+                time: time,
+              ),
             ),
             backgroundColor: Colors.blueGrey,
             child: const Icon(Icons.info_outline),
