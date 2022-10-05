@@ -1,8 +1,16 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
 
+// Package imports:
+import 'package:intl/intl.dart';
+
 class PhotoInfoPanel extends StatelessWidget {
-  const PhotoInfoPanel({Key? key}) : super(key: key);
+  const PhotoInfoPanel({
+    Key? key,
+    required this.time,
+  }) : super(key: key);
+
+  final DateTime time;
 
   @override
   Widget build(BuildContext context) {
@@ -13,36 +21,36 @@ class PhotoInfoPanel extends StatelessWidget {
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: const [
-          Text(
+        children: [
+          const Text(
             'Infomation',
             style: TextStyle(
               fontSize: 30,
               fontWeight: FontWeight.bold,
             ),
           ),
-          SizedBox(height: 40),
-          Text(
+          const SizedBox(height: 40),
+          const Text(
             'Date',
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.w400,
             ),
           ),
-          Divider(),
-          Text('Coming soon...'),
-          Spacer(),
-          Text(
+          const Divider(),
+          Text(DateFormat('yyyy-MM-dd – kk:mm').format(time)),
+          const SizedBox(height: 20),
+          const Text(
             'Location',
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.w400,
             ),
           ),
-          Divider(),
-          Text('Latitude: Coming soon...'),
-          Text('Longitude: Coming soon...'),
-          Spacer(),
+          const Divider(),
+          const Text('Latitude: Coming soon...'),
+          const Text('Longitude: Coming soon...'),
+          const Spacer(),
         ],
       ),
     );
